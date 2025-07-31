@@ -1,6 +1,6 @@
 package models
 
-// Pet represents a pet from the Petstore API
+// Pet represents a pet from the Petstore API.
 type Pet struct {
 	ID        int64    `json:"id"`
 	Name      string   `json:"name"`
@@ -10,24 +10,24 @@ type Pet struct {
 	Status    string   `json:"status"`
 }
 
-// Category represents a pet category
+// Category represents a pet category.
 type Category struct {
 	ID   int64  `json:"id"`
 	Name string `json:"name"`
 }
 
-// Tag represents a pet tag
+// Tag represents a pet tag.
 type Tag struct {
 	ID   int64  `json:"id"`
 	Name string `json:"name"`
 }
 
-// Store represents store inventory
+// Store represents store inventory.
 type Store struct {
 	Inventory map[string]int `json:"inventory"`
 }
 
-// User represents a user in the system
+// User represents a user in the system.
 type User struct {
 	ID         int64  `json:"id"`
 	Username   string `json:"username"`
@@ -39,7 +39,7 @@ type User struct {
 	UserStatus int    `json:"userStatus"`
 }
 
-// Order represents a store order
+// Order represents a store order.
 type Order struct {
 	ID       int64  `json:"id"`
 	PetID    int64  `json:"petId"`
@@ -49,7 +49,7 @@ type Order struct {
 	Complete bool   `json:"complete"`
 }
 
-// ApiResponse represents the API response
+// ApiResponse represents the API response.
 type ApiResponse struct {
 	Code    int    `json:"code"`
 	Type    string `json:"type"`

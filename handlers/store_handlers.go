@@ -10,64 +10,81 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// RegisterStoreRoutes registers all store-related routes
+// RegisterStoreRoutes registers all store-related routes.
 func RegisterStoreRoutes(router *gin.Engine, client *client.PetstoreClient) {
 	// Get store inventory
-	router.GET("/api/store/inventory", func(c *gin.Context) {
+	router.GET("/api/store/inventory", func(context *gin.Context) {
 		inventory, err := client.GetStoreInventory()
+
 		if err != nil {
-			c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+			context.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+
 			return
 		}
-		c.JSON(http.StatusOK, inventory)
+
+		context.JSON(http.StatusOK, inventory)
 	})
 
 	// Place order
-	router.POST("/api/store/order", func(c *gin.Context) {
+	router.POST("/api/store/order", func(context *gin.Context) {
 		var order models.Order
-		if err := c.ShouldBindJSON(&order); err != nil {
-			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+
+		if err := context.ShouldBindJSON(&order); err != nil {
+			context.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+
 			return
 		}
 		
 		newOrder, err := client.PlaceOrder(order)
+
 		if err != nil {
-			c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+			context.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+
 			return
 		}
-		c.JSON(http.StatusOK, newOrder)
+
+		context.JSON(http.StatusOK, newOrder)
 	})
 
 	// Get order by ID
-	router.GET("/api/store/order/:orderId", func(c *gin.Context) {
-		orderID := c.Param("orderId")
+	router.GET("/api/store/order/:orderId", func(context *gin.Context) {
+		orderID := context.Param("orderId")
 		id, err := strconv.ParseInt(orderID, 10, 64)
+
 		if err != nil {
-			c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid order ID"})
+			context.JSON(http.StatusBadRequest, gin.H{"error": "Invalid order ID"})
+
 			return
 		}
 		
 		order, err := client.GetOrderByID(id)
+
 		if err != nil {
-			c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+			context.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+
 			return
 		}
-		c.JSON(http.StatusOK, order)
+
+		context.JSON(http.StatusOK, order)
 	})
 
 	// Delete order
-	router.DELETE("/api/store/order/:orderId", func(c *gin.Context) {
-		orderID := c.Param("orderId")
+	router.DELETE("/api/store/order/:orderId", func(context *gin.Context) {
+		orderID := context.Param("orderId")
 		id, err := strconv.ParseInt(orderID, 10, 64)
+
 		if err != nil {
-			c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid order ID"})
+			context.JSON(http.StatusBadRequest, gin.H{"error": "Invalid order ID"})
+
 			return
 		}
 		
 		if err := client.DeleteOrder(id); err != nil {
-			c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+			context.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+
 			return
 		}
-		c.JSON(http.StatusOK, gin.H{"message": "Order deleted successfully"})
+		
+		context.JSON(http.StatusOK, gin.H{"message": "Order deleted successfully"})
 	})
 }

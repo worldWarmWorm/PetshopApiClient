@@ -2,6 +2,7 @@ package main
 
 import (
 	"log"
+	"net/http"
 
 	"PetshopApiClient/client"
 	"PetshopApiClient/handlers"
@@ -10,27 +11,27 @@ import (
 )
 
 func main() {
-	// Initialize the Petstore client
 	petstoreClient := client.NewPetstoreClient()
-
-	// Set up Gin router
 	router := gin.Default()
 
 	// Enable CORS
-	router.Use(func(c *gin.Context) {
-		c.Writer.Header().Set("Access-Control-Allow-Origin", "http://localhost:3001")
-		c.Writer.Header().Set("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS")
-		c.Writer.Header().Set("Access-Control-Allow-Headers", "Content-Type, Authorization")
-		if c.Request.Method == "OPTIONS" {
-			c.AbortWithStatus(204)
+	router.Use(func(context *gin.Context) {
+		context.Writer.Header().Set("Access-Control-Allow-Origin", "http://localhost:3001")
+		context.Writer.Header().Set("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS")
+		context.Writer.Header().Set("Access-Control-Allow-Headers", "Content-Type, Authorization")
+
+		if context.Request.Method == http.MethodOptions {
+			context.AbortWithStatus(http.StatusNoContent)
+
 			return
 		}
-		c.Next()
+
+		context.Next()
 	})
 
 	// Serve React app
-	router.NoRoute(func(c *gin.Context) {
-		c.File("frontend/build/index.html")
+	router.NoRoute(func(context *gin.Context) {
+		context.File("frontend/build/index.html")
 	})
 
 	// Register API routes
@@ -40,6 +41,7 @@ func main() {
 
 	// Start the server
 	log.Println("Starting server on :8081")
+
 	if err := router.Run(":8081"); err != nil {
 		log.Fatalf("Failed to start server: %v", err)
 	}
