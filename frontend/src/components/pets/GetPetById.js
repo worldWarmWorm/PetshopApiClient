@@ -67,8 +67,8 @@ const GetPetById = () => {
               <div>
                 <Card.Text>Tags:</Card.Text>
                 <ul>
-                  {pet.tags.map((tag) => (
-                    <li key={tag.id}>{tag.name}</li>
+                  {pet.tags.map((tag, idx) => (
+                    <li key={idx}>{tag.name}</li>
                   ))}
                 </ul>
               </div>
@@ -77,8 +77,8 @@ const GetPetById = () => {
               <div>
                 <Card.Text>Photos:</Card.Text>
                 <ul>
-                  {pet.photoUrls.map((url, index) => (
-                    <li key={index}>
+                  {pet.photoUrls.map((url, idx) => (
+                    <li key={idx}>
                       <a href={url} target="_blank" rel="noopener noreferrer">
                         {url}
                       </a>

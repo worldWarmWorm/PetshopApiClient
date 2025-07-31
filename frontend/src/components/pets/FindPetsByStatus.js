@@ -58,8 +58,8 @@ const FindPetsByStatus = () => {
       )}
 
       <Row>
-        {pets.map((pet) => (
-          <Col md={4} key={pet.id} className="mb-3">
+        {pets.map((pet, idx) => (
+          <Col md={4} key={idx} className="mb-3">
             <Card className="h-100">
               <Card.Body>
                 <Card.Title>{pet.name || 'No Name'}</Card.Title>
@@ -70,8 +70,8 @@ const FindPetsByStatus = () => {
                   <div>
                     <small className="text-muted">Tags:</small>
                     <ul className="list-unstyled">
-                      {pet.tags.map((tag) => (
-                        <li key={tag.id}>{tag.name}</li>
+                      {pet.tags.map((tag, idx) => (
+                        <li key={idx}>{tag.name}</li>
                       ))}
                     </ul>
                   </div>
