@@ -1,2 +1,4 @@
 /frontend/node_modules
 /.idea
+/frontend/build
+/frontend/package-lock.json
