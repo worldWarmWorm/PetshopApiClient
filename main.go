@@ -2,7 +2,6 @@ package main
 
 import (
 	"log"
-	"net/http"
 
 	"PetshopApiClient/client"
 	"PetshopApiClient/handlers"
@@ -17,17 +16,21 @@ func main() {
 	// Set up Gin router
 	router := gin.Default()
 
-	// Load HTML templates
-	router.LoadHTMLGlob("templates/*")
+	// Enable CORS
+	router.Use(func(c *gin.Context) {
+		c.Writer.Header().Set("Access-Control-Allow-Origin", "http://localhost:3001")
+		c.Writer.Header().Set("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS")
+		c.Writer.Header().Set("Access-Control-Allow-Headers", "Content-Type, Authorization")
+		if c.Request.Method == "OPTIONS" {
+			c.AbortWithStatus(204)
+			return
+		}
+		c.Next()
+	})
 
-	// Serve static files
-	router.Static("/static", "./static")
-
-	// Define routes
-	router.GET("/", func(c *gin.Context) {
-		c.HTML(http.StatusOK, "index.html", gin.H{
-			"title": "Petstore API Client",
-		})
+	// Serve React app
+	router.NoRoute(func(c *gin.Context) {
+		c.File("frontend/build/index.html")
 	})
 
 	// Register API routes
