@@ -40,9 +40,9 @@ func main() {
 	handlers.RegisterUserRoutes(router, petstoreClient)
 
 	// Start the server
-	log.Println("Starting server on :8081")
+	log.Println("Starting server on :8085")
 
-	if err := router.Run(":8081"); err != nil {
+	if err := router.Run(":8085"); err != nil {
 		log.Fatalf("Failed to start server: %v", err)
 	}
 }
