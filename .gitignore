@@ -1,0 +1,7 @@
+/web/frontend/node_modules
+/web/frontend/build
+
+/web/frontend/package-lock.json
+/cmd/api/api
+
+/.idea
